@@ -278,23 +278,26 @@ public class Login extends javax.swing.JFrame {
     });
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String username  = jTextUsername.getText().trim();
-        String password = jTextPassword.getText().trim();
+    //    String username  = jTextUsername.getText().trim();
+    //    String password = jTextPassword.getText().trim();
         
+        Akun <String, String> akun;
+        akun = new Akun<String, String>
+        (jTextUsername.getText().trim(),jTextPassword.getText().trim());
         timerDown.start();
         
-        if(username.equals("user@gmail.com") && password.equals("user123"))
+        if(akun.getUsername().equals("user@gmail.com") && akun.getPassword().equals("user123"))
         {
            Menu M =  new Menu();
             M.setVisible(true);
             this.dispose();
-        } else if(username.equals("") && password.equals(""))
+        } else if(akun.getUsername().equals("") && akun.getPassword().equals(""))
         {
             jLabel_message.setText("Masukkan email dan password"); 
-        } else if(username.equals(""))
+        } else if(akun.getUsername().equals(""))
         {
             jLabel_message.setText("Masukkan email"); 
-        } else if(password.equals(""))
+        } else if(akun.getPassword().equals(""))
         {
             jLabel_message.setText("Masukkan password"); 
         } else
@@ -369,7 +372,7 @@ public class Login extends javax.swing.JFrame {
         });
     }
         
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCheckBox_showPass;
