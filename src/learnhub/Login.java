@@ -5,8 +5,13 @@
  */
 package learnhub;
 
+import com.google.gson.Gson;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Timer;
 
 /**
@@ -278,31 +283,42 @@ public class Login extends javax.swing.JFrame {
     });
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    //    String username  = jTextUsername.getText().trim();
-    //    String password = jTextPassword.getText().trim();
-        
-        Akun <String, String> akun;
-        akun = new Akun<String, String>
-        (jTextUsername.getText().trim(),jTextPassword.getText().trim());
-        timerDown.start();
-        
-        if(akun.getUsername().equals("user@gmail.com") && akun.getPassword().equals("user123"))
-        {
-           Menu M =  new Menu();
-            M.setVisible(true);
-            this.dispose();
-        } else if(akun.getUsername().equals("") && akun.getPassword().equals(""))
-        {
-            jLabel_message.setText("Masukkan email dan password"); 
-        } else if(akun.getUsername().equals(""))
-        {
-            jLabel_message.setText("Masukkan email"); 
-        } else if(akun.getPassword().equals(""))
-        {
-            jLabel_message.setText("Masukkan password"); 
-        } else
-        {
-            jLabel_message.setText("email atau password salah"); 
+        try {
+            String username  = jTextUsername.getText().trim();
+            String password = jTextPassword.getText().trim();
+
+            timerDown.start();
+            
+            jLabel_message.setText("Masukkan username dan password");
+
+            Gson gson = new Gson();
+            BufferedReader br = new BufferedReader(new FileReader("data.json"));
+            ListAkun listAkun = gson.fromJson(br, ListAkun.class);
+            if (listAkun != null) {
+                for (Akun akun : listAkun.getAkun()) {
+                if(username.equals(akun.getUsername()) && password.equals(akun.getPassword()))
+                {
+                    Menu M =  new Menu();
+                    M.setVisible(true);
+                    this.dispose();
+                } else if(username.equals("") && password.equals(""))
+                {
+                    jLabel_message.setText("Input your username and password first");
+                } else if(username.equals(""))
+                {
+                    jLabel_message.setText("Input your username first");
+                } else if(password.equals(""))
+                {
+                    jLabel_message.setText("Input your password first");
+                } else
+                { 
+                    jLabel_message.setText("Wrong username or password");
+                }
+                }
+            }            
+            
+        } catch (Exception ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
